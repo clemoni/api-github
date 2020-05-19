@@ -3,6 +3,10 @@ class UI {
         this.profile = document.getElementById('profile');
     }
 
+    /**
+     * Print html user detail 
+     * @param {String} user 
+     */
     showProfile(user) {
         this.profile.innerHTML = `
         <div class="card card-body mb-3">
@@ -31,5 +35,71 @@ class UI {
             <h3 class="page-heading mb-3">Latest Repos</h3>
             <div id="repos"></div>
         `
+    }
+
+    showRepos(repos) {
+        let html = ''
+        repos.forEach((repo) => {
+            html += `
+            <div class='card card-body mb-2'>
+            <div class='row'>
+            <div class='col-md-6'>
+            <a href='${repo.html_url}' target='_blank'>${repo.name}</a>
+            </div>
+            <div class='col-md-6'>
+            <span class="badge badge-primary">Stars: ${repo.stargazers_count}</span>
+            <span class="badge badge-secondary">Watchers : ${repo.watchers_count}</span>
+            <span class="badge badge-success">Forks: ${repo.forks_count}</span>
+            </div>
+            </div>
+            </div>`
+
+        })
+        document.getElementById('repos').innerHTML = html
+
+    }
+    /**
+     * Print html alert message 
+     * @param {string} message to be printed
+     * @param {string} className for the alert div  
+     */
+    showAlert(message, className) {
+        // clear remainign alert
+        this.clearAlert()
+
+        const div = document.createElement('div');
+
+        // add a the classes
+        div.className = className;
+
+        //Add the text message
+        div.appendChild(document.createTextNode(message));
+
+        // get the parent 
+        const container = document.querySelector('div.searchContainer');
+
+        const search = document.querySelector('.search');
+
+        // insert the alert
+        container.insertBefore(div, search);
+
+        setTimeout(() => { this.clearAlert() }, 3000)
+
+    }
+
+    // clear Alert Message
+    clearAlert() {
+        const currentAlert = document.querySelector('.alert');
+
+        if (currentAlert) {
+            currentAlert.remove()
+        }
+    }
+
+    /**
+     * clear hmtl user detail 
+     */
+    clearProfile() {
+        this.profile.innerHTML = "";
     }
 }
